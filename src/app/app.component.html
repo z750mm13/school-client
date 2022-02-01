@@ -38,22 +38,25 @@
 
           <div class="mb-3">
             <label for="level" class="form-label">Nivel academico</label>
-            <input class="form-control" list="levels" id="level" placeholder="Escriba su nivel (ejem. Licenciaturas)">
-            <datalist id="levels">
-              <option value="Licenciaturas">
-              <option value="Maestrias">
-              <option value="Doctorados">
-            </datalist>
+            <select [(ngModel)]="selectedSpecialties" id="level" name="level" class="form-select" aria-label=".form-select-sm example" required>
+              <option 
+                *ngFor="let level of levels"
+                [ngValue]="level.specialties"
+              >
+              {{level.name}}
+              </option>
+            </select>
           </div>
 
           <div class="mb-3">
-            <label for="academiclevel" class="form-label">Especialidad</label>
-            <input class="form-control" list="academiclevels" id="academiclevel" name="academiclevel" placeholder="Escriba su especialidad">
-            <datalist id="academiclevels">
-              <option value="Enfermeria">
-              <option value="Software">
-              <option value="Arquitectura">
-            </datalist>
+            <label for="specialty" class="form-label">Especialidad</label>
+            <select id="specialty" name="specialty" class="form-select" aria-label=".form-select-sm example" required>
+              <option 
+                *ngFor="let specialty of selectedSpecialties"
+              >
+              {{specialty}}
+              </option>
+            </select>
           </div>
 
           <button type="submit" class="btn btn-primary">Registro</button>
