@@ -8,37 +8,68 @@
   <div class="row justify-content-md-center">
     <div class="card col-7">
       <div class="card-body">
-        <h3>Registro de estudiantes</h3>
-        <form>
+        <h3 class="text-center mb-5">Registro de estudiantes</h3>
+        <form [formGroup]="studentForm" name="studentForm" (ngSubmit)="addStudent()">
 
           <div class="mb-3">
             <label for="name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nombre (ejem. Juan)" required>
+            <input [attr.disabled]="load? true : null"
+              [(ngModel)]="student.name"
+              [ngClass]="{'is-invalid': ( f['name'].touched || f['name'].dirty ) && f['name'].errors}"
+              type="text" class="form-control" id="name" formControlName="name" placeholder="Nombre (ejem. Juan)" required>
+            <div *ngIf="f['name'].errors && (f['name'].dirty || f['name'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['name'].errors?.['required']">El nombre es requerido.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="lastname" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellidos (ejem. Ramos)" required>
+            <input [attr.disabled]="load? true : null" [(ngModel)]="student.lastName" [ngClass]="{'is-invalid': ( f['lastname'].touched || f['lastname'].dirty ) && f['lastname'].errors}" type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Apellidos (ejem. Ramos)" required>
+            <div *ngIf="f['lastname'].errors && (f['lastname'].dirty || f['lastname'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['lastname'].errors?.['required']">El apellido es requerido.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="nombre@ejemplo.com" required>
+            <input [ngClass]="{'is-invalid': ( f['email'].touched || f['email'].dirty ) && f['email'].errors}" [attr.disabled]="load? true : null" [(ngModel)]="student.email" type="email" class="form-control" id="email" formControlName="email" placeholder="nombre@ejemplo.com" required>
+            <div *ngIf="f['email'].errors && (f['email'].dirty || f['email'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['email'].errors?.['required']">El correo es requerido.</div>
+              <div *ngIf="f['email'].errors?.['email']">El formato del correo es incorrecto.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="semestre" class="form-label">Semestre</label>
-            <input type="number" class="form-control" id="semestre" name="semestre" placeholder="Escriba su nivel (ejem. 1)" required>
+            <input [ngClass]="{'is-invalid': ( f['semestre'].touched || f['semestre'].dirty ) && f['semestre'].errors}" [attr.disabled]="load? true : null" [(ngModel)]="student.semester" type="number" min=1 class="form-control" id="semestre" formControlName="semestre" placeholder="Escriba su nivel (ejem. 1)" required>
+            <div *ngIf="f['semestre'].errors && (f['semestre'].dirty || f['semestre'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['semestre'].errors?.['required']">El semestre es requerido.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="enrollment" class="form-label">Matricula</label>
-            <input type="text" class="form-control" id="enrollment" name="enrollment" placeholder="Escriba su nivel (ejem. 12345678)"required>
+            <input [ngClass]="{'is-invalid': ( f['enrollment'].touched || f['enrollment'].dirty ) && f['enrollment'].errors}" [attr.disabled]="load? true : null" [(ngModel)]="student.enrollment" maxlength="9" minlength type="text" class="form-control" id="enrollment" formControlName="enrollment" placeholder="Escriba su nivel (ejem. 12345678)" required>
+            <div *ngIf="f['enrollment'].errors && (f['enrollment'].dirty || f['enrollment'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['enrollment'].errors?.['required']">Matricula es requerida.</div>
+              <div *ngIf="f['enrollment'].errors?.['minlength']">La matricula debe cumplir con 9 caracteres.</div>
+              <div *ngIf="f['enrollment'].errors?.['maxlength']">La matricula debe cumplir con 9 caracteres.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="level" class="form-label">Nivel academico</label>
-            <select [(ngModel)]="selectedSpecialties" id="level" name="level" class="form-select" aria-label=".form-select-sm example" required>
+            <select [ngClass]="{'is-invalid': ( f['level'].touched || f['level'].dirty ) && f['level'].errors}" [attr.disabled]="load? true : null" [(ngModel)]="selectedSpecialties" (change)="changeLeve()" id="level" formControlName="level" class="form-select" aria-label=".form-select-sm example" required>
               <option 
                 *ngFor="let level of levels"
                 [ngValue]="level.specialties"
@@ -46,20 +77,30 @@
               {{level.name}}
               </option>
             </select>
+            <div *ngIf="f['level'].errors && (f['level'].dirty || f['level'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['level'].errors?.['required']">El nivel academico es requerido.</div>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="specialty" class="form-label">Especialidad</label>
-            <select id="specialty" name="specialty" class="form-select" aria-label=".form-select-sm example" required>
+            <select [ngClass]="{'is-invalid': ( f['specialty'].touched || f['specialty'].dirty ) && f['specialty'].errors}" [attr.disabled]="load? true : null" [(ngModel)]="student.specialty" id="specialty" formControlName="specialty" class="form-select" aria-label=".form-select-sm example" required>
               <option 
                 *ngFor="let specialty of selectedSpecialties"
               >
               {{specialty}}
               </option>
             </select>
+            <div *ngIf="f['specialty'].errors && (f['specialty'].dirty || f['specialty'].touched)"
+              class="invalid-feedback">
+
+              <div *ngIf="f['specialty'].errors?.['required']">La especialidad es requerida.</div>
+            </div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Registro</button>
+          <button [attr.disabled]="studentForm.invalid || load? true : null" type="submit" class="btn btn-primary">{{load ? 'Cargando' : 'Registro'}}</button>
         </form>
       </div>
     </div>

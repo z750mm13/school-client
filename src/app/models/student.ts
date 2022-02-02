@@ -1,8 +1,8 @@
-export interface Student {
+export class Student {
     name: string;
     lastName: string;
     email: string;
     semester: number;
     enrollment: string;
-    academiclevel: string;
+    specialty: string;
 }
