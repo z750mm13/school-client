@@ -1,6 +1,6 @@
 export class Student {
     name: string;
-    lastName: string;
+    lastname: string;
     email: string;
     semester: number;
     enrollment: string;

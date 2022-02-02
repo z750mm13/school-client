@@ -47,7 +47,6 @@ export class AppComponent {
   async addStudent() {
     if (this.studentForm.invalid)return;
 
-    console.log(this.student);
     this.load = true;
     this.studentService.createStudent(this.student)
       .subscribe(

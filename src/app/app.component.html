@@ -26,7 +26,7 @@
 
           <div class="mb-3">
             <label for="lastname" class="form-label">Apellidos</label>
-            <input [attr.disabled]="load? true : null" [(ngModel)]="student.lastName" [ngClass]="{'is-invalid': ( f['lastname'].touched || f['lastname'].dirty ) && f['lastname'].errors}" type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Apellidos (ejem. Ramos)" required>
+            <input [attr.disabled]="load? true : null" [(ngModel)]="student.lastname" [ngClass]="{'is-invalid': ( f['lastname'].touched || f['lastname'].dirty ) && f['lastname'].errors}" type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Apellidos (ejem. Ramos)" required>
             <div *ngIf="f['lastname'].errors && (f['lastname'].dirty || f['lastname'].touched)"
               class="invalid-feedback">
 

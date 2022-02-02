@@ -8,7 +8,7 @@ import { Response } from '../models/response';
   providedIn: 'root'
 })
 export class StudentService {
-  BASE_URL: string = 'http://localhost:8080/students/create'
+  BASE_URL: string = 'http://localhost:8080/Student'
 
   constructor( private http: HttpClient ) { }
 
