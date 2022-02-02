@@ -3,6 +3,7 @@ import { Student } from './models/student';
 import { specialties, Specialty } from './models/specialties';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { StudentService } from './services/student.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ export class AppComponent {
 
   changeLeve = () => this.student.specialty = this.selectedSpecialties[0];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private studentService: StudentService) {}
 
   // VALIDACIONES
   ngOnInit () {
@@ -48,14 +49,39 @@ export class AppComponent {
 
     console.log(this.student);
     this.load = true;
-    await new Promise(f => setTimeout(f, 1000));
-    await Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'El estudiante ha sido registrado correctamente',
-      showConfirmButton: false,
-      timer: 2000
-    })
-    this.load = false;
+    this.studentService.createStudent(this.student)
+      .subscribe(
+        res=>{
+          console.log(res);
+
+          if(res.complete) Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'El estudiante ha sido registrado correctamente',
+            showConfirmButton: false,
+            timer: 2000
+          });
+
+          else Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'El estudiante ya habia sido registrado anteriormente',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.load = false;
+        }, err => {
+          console.log(err);
+
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se pudo establecer la conexion correctamente con el servidor',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.load = false;
+        }
+      );
   }
 }
